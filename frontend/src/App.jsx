@@ -1,6 +1,6 @@
 // import { Route, Routes } from "react-router-dom";
 // import { BrowserRouter, Route, Routes } from "react-router-dom";
-import DarkMode from "./buttons/DarkMode";
+// import DarkMode from "./buttons/DarkMode";
 // import Nav from "./components/component/Nav";
 import Dashboard from "./pages/Dashboard";
 import {
@@ -27,7 +27,6 @@ const App = () => {
   return (
     <>
       {/* <Nav /> */}
-      <DarkMode extraClasses="absolute right-5 bottom-3 text-2xl" />
       <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
         <header>
           <SignedOut>

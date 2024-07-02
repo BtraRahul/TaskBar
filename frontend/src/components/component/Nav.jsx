@@ -15,6 +15,7 @@
 
 // export default Nav;
 
+import DarkMode from "@/buttons/DarkMode";
 import { UserButton } from "@clerk/clerk-react";
 
 export default function Nav() {
@@ -24,6 +25,8 @@ export default function Nav() {
         <MountainIcon className="h-6 w-6" />
         <span>TaskBar</span>
       </div>
+      <DarkMode extraClasses="absolute right-20 text-2xl" />
+
       <div className="flex items-center gap-4">
         <UserButton />
       </div>
