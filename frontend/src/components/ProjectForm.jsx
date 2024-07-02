@@ -58,6 +58,9 @@ const ProjectForm = ({ fetchProjects }) => {
         value={newProjectDeadline}
         onChange={(e) => setNewProjectDeadline(e.target.value)}
       />
+      <label htmlFor="deadline" className="sr-only">
+        Deadline
+      </label>
       <Button onClick={addNewProject} className="w-full md:w-auto">
         Add Project
       </Button>
