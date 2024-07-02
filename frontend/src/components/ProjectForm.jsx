@@ -10,7 +10,8 @@ import { useUser } from "@clerk/clerk-react";
 const ProjectForm = ({ fetchProjects }) => {
   const [newProjectName, setNewProjectName] = useState("");
   const [newProjectDescription, setNewProjectDescription] = useState("");
-  const [newProjectDeadline, setNewProjectDeadline] = useState("");
+  const [newProjectDeadline, setNewProjectDeadline] =
+    useState("2024-07-01T19:30");
 
   const { user } = useUser();
   const [newProjectEmail, setNewProjectEmail] = useState(
@@ -51,6 +52,9 @@ const ProjectForm = ({ fetchProjects }) => {
         onChange={(e) => setNewProjectDescription(e.target.value)}
         className="w-full md:w-auto"
       />
+      <label htmlFor="deadline" className="sr-only">
+        Deadline
+      </label>
       <Input
         type="datetime-local"
         id="deadline"
@@ -59,9 +63,6 @@ const ProjectForm = ({ fetchProjects }) => {
         value={newProjectDeadline}
         onChange={(e) => setNewProjectDeadline(e.target.value)}
       />
-      <label htmlFor="deadline" className="sr-only">
-        Deadline
-      </label>
       <Button onClick={addNewProject} className="w-full md:w-auto">
         Add Project
       </Button>
