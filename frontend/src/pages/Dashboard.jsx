@@ -135,7 +135,7 @@ export default function Component() {
                 <TableBody>
                   {projects.map((project) => (
                     <Fragment key={project._id}>
-                      <TableRow
+                      <TableRow 
                         onClick={() => toggleExpand(project._id)}
                         className={`cursor-pointer ${
                           expandedProject === project._id ? "bg-muted" : ""

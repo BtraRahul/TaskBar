@@ -36,27 +36,31 @@ const ProjectForm = ({ fetchProjects }) => {
   };
 
   return (
-    <div className="mb-4 flex items-center gap-2">
+    <div className="mb-4 flex flex-col items-center gap-2 md:flex-row">
       <Input
         type="text"
         placeholder="New Project Name"
         value={newProjectName}
         onChange={(e) => setNewProjectName(e.target.value)}
+        className="w-full md:w-auto"
       />
       <Input
         type="text"
         placeholder="New Project Description"
         value={newProjectDescription}
         onChange={(e) => setNewProjectDescription(e.target.value)}
+        className="w-full md:w-auto"
       />
       <Input
         type="datetime-local"
         placeholder="Deadline"
-        className="dark:[color-scheme:dark]"
+        className="dark:[color-scheme:dark] w-full md:w-auto"
         value={newProjectDeadline}
         onChange={(e) => setNewProjectDeadline(e.target.value)}
       />
-      <Button onClick={addNewProject}>Add Project</Button>
+      <Button onClick={addNewProject} className="w-full md:w-auto">
+        Add Project
+      </Button>
     </div>
   );
 };
