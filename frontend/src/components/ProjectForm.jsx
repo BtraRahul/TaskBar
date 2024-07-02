@@ -53,6 +53,7 @@ const ProjectForm = ({ fetchProjects }) => {
       />
       <Input
         type="datetime-local"
+        id="deadline"
         placeholder="Deadline"
         className=" dark:[color-scheme:dark] w-full md:w-auto"
         value={newProjectDeadline}
