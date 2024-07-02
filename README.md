@@ -32,38 +32,6 @@ Welcome to the Project Management Tool! This application is designed to help use
 - **React Router**: For handling routing in the React application.
 - **Dotenv**: For loading environment variables from a `.env` file.
 
-## Project Structure
-
-### Frontend
-```
-src/
-├── components/
-│   ├── Project.js
-│   ├── ProjectForm.js
-│   ├── Task.js
-│   └── TaskForm.js
-├── pages/
-│   ├── Dashboard.js
-│   ├── Login.js
-│   └── Register.js
-├── App.js
-└── index.js
-```
-
-### Backend
-```
-server/
-├── models/
-│   └── Project.js
-├── routes/
-│   └── projects.js
-├── controllers/
-│   └── projectController.js
-├── config/
-│   └── db.js
-├── server.js
-└── .env
-```
 
 ## Installation and Setup
 
