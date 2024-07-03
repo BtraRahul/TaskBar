@@ -36,6 +36,7 @@ export default function Component() {
   const [expandedProject, setExpandedProject] = useState(null);
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [projectsProgress, setProjectsProgress] = useState({});
   const { user } = useUser();
 
   const fetchProjects = async () => {
@@ -44,14 +45,8 @@ export default function Component() {
     const res = await axios.get(`${API_BASE_URL}/api/projects/${email}`);
     const fetchedProjects = res.data;
 
-    const projectsWithCompletionCount = fetchedProjects.map((project) => {
-      const completedCount = project.tasks.filter(
-        (task) => task.status === "Completed"
-      ).length;
-      return { ...project, completedCount };
-    });
+    updateProgress(fetchedProjects);
 
-    setProjects(projectsWithCompletionCount);
     setLoading(false);
   };
 
@@ -83,16 +78,56 @@ export default function Component() {
     fetchProjects();
   };
 
-  const updateTaskStatus = async (projectId, taskId, newStatus) => {
-    const project = projects.find((project) => project._id === projectId);
-    const updatedTasks = project.tasks.map((task) =>
-      task._id === taskId ? { ...task, status: newStatus } : task
-    );
-    await axios.put(`${API_BASE_URL}/api/projects/${projectId}`, {
-      ...project,
-      tasks: updatedTasks,
+  const updateProgress = async (fetchedProjects) => {
+    const projectsWithCompletionCount = fetchedProjects.map((project) => {
+      const completedCount = project.tasks.filter(
+        (task) => task.status === "Completed"
+      ).length;
+      return { ...project, completedCount };
     });
-    fetchProjects();
+
+    setProjects(projectsWithCompletionCount);
+  };
+  useEffect(() => {
+    updateProgress(projects);
+  }, []);
+
+  // const updateTaskStatus = async (projectId, taskId, newStatus) => {
+  //   const project = projects.find((project) => project._id === projectId);
+  //   const updatedTasks = project.tasks.map((task) =>
+  //     task._id === taskId ? { ...task, status: newStatus } : task
+  //   );
+  //   await axios.put(`${API_BASE_URL}/api/projects/${projectId}`, {
+  //     ...project,
+  //     tasks: updatedTasks,
+  //   });
+  //   fetchProjects();
+  // };
+
+  const updateTaskStatus = async (projectId, taskId, newStatus) => {
+    try {
+      const res = await axios.put(
+        `${API_BASE_URL}/api/projects/${projectId}/tasks/${taskId}/status`,
+        { newStatus }
+      );
+
+      const updatedTask = res.data;
+
+      setProjects((prevProjects) =>
+        prevProjects.map((project) => {
+          if (project._id === projectId) {
+            const updatedTasks = project.tasks.map((task) =>
+              task._id === taskId ? updatedTask : task
+            );
+            return { ...project, tasks: updatedTasks };
+          }
+          return project;
+        })
+      );
+      fetchProjects();
+    } catch (error) {
+      console.error("Failed to update task status", error);
+    }
   };
 
   return (

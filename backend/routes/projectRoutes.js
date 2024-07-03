@@ -17,16 +17,14 @@ router.route("/").get(getProjects).post(createProject);
 
 router.route(`/:email`).get(fetchByEmail);
 
-
 router
-.route("/:id")
-.get(getProjectById)
-.put(updateProject)
-.delete(deleteProject);
+  .route("/:id")
+  .get(getProjectById)
+  .put(updateProject)
+  .delete(deleteProject);
 
 router.route("/:id/tasks").put(addTaskToProject);
-
-router.route("/:projectId/tasks/status").put(updateTaskStatus);
+router.route("/:projectId/tasks/:taskId/status").put(updateTaskStatus);
 router.route("/:projectId/tasks/:taskId").delete(deleteTask);
 
 export default router;

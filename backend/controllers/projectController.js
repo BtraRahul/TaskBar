@@ -78,8 +78,8 @@ export const addTaskToProject = async (req, res) => {
 //Tasks
 export const updateTaskStatus = async (req, res) => {
   try {
-    const { projectId } = req.params;
-    const { newStatus, taskId } = req.body;
+    const { projectId, taskId } = req.params;
+    const { newStatus } = req.body;
     const project = await Project.findById(projectId);
     if (!project) return res.status(404).json({ message: "Project not found" });
 
