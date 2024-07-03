@@ -181,7 +181,7 @@ export default function Component() {
                         </TableCell>
                       </TableRow>
                       {expandedProject === project._id && (
-                        <TableRow className="bg-gray-900">
+                        <TableRow className="dark:bg-gray-900">
                           <TableCell colSpan={5}>
                             <div>
                               <div className="grid gap-4">
