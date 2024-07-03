@@ -74,3 +74,36 @@ export const addTaskToProject = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+//Tasks
+export const updateTaskStatus = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+    const { newStatus, taskId } = req.body;
+    const project = await Project.findById(projectId);
+    if (!project) return res.status(404).json({ message: "Project not found" });
+
+    const task = project.tasks.id(taskId);
+    task.status = newStatus;
+    await project.save();
+
+    res.json(task);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const deleteTask = async (req, res) => {
+  try {
+    const { projectId, taskId } = req.params;
+    const project = await Project.findById(projectId);
+    if (!project) return res.status(404).json({ message: "Project not found" });
+
+    project.tasks.id(taskId).remove();
+    await project.save();
+
+    res.json({ message: "Task deleted", taskId });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};

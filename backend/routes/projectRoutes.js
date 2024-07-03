@@ -6,7 +6,9 @@ import {
   updateProject,
   deleteProject,
   addTaskToProject,
-  fetchByEmail
+  fetchByEmail,
+  deleteTask,
+  updateTaskStatus,
 } from "../controllers/projectController.js";
 
 const router = express.Router();
@@ -14,13 +16,17 @@ const router = express.Router();
 router.route("/").get(getProjects).post(createProject);
 
 router.route(`/:email`).get(fetchByEmail);
+
+
 router
-  .route("/:id")
-  .get(getProjectById)
-  .put(updateProject)
-  .delete(deleteProject);
+.route("/:id")
+.get(getProjectById)
+.put(updateProject)
+.delete(deleteProject);
 
 router.route("/:id/tasks").put(addTaskToProject);
 
+router.route("/:projectId/tasks/status").put(updateTaskStatus);
+router.route("/:projectId/tasks/:taskId").delete(deleteTask);
 
 export default router;

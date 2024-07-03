@@ -30,6 +30,8 @@ import TaskForm from "@/components/TaskForm";
 import { Skeleton } from "@/components/ui/skeleton";
 import { API_BASE_URL } from "@/lib/config";
 import { useUser } from "@clerk/clerk-react";
+import { Progress } from "@/components/ui/progress";
+
 export default function Component() {
   const [expandedProject, setExpandedProject] = useState(null);
   const [projects, setProjects] = useState([]);
@@ -40,9 +42,17 @@ export default function Component() {
     const email = user.primaryEmailAddress.emailAddress;
     setLoading(true);
     const res = await axios.get(`${API_BASE_URL}/api/projects/${email}`);
-    setProjects(res.data);
+    const fetchedProjects = res.data;
+
+    const projectsWithCompletionCount = fetchedProjects.map((project) => {
+      const completedCount = project.tasks.filter(
+        (task) => task.status === "Completed"
+      ).length;
+      return { ...project, completedCount };
+    });
+
+    setProjects(projectsWithCompletionCount);
     setLoading(false);
-    console.log(email);
   };
 
   useEffect(() => {
@@ -128,9 +138,9 @@ export default function Component() {
                     <TableHead>Description</TableHead>
                     <TableHead>Tasks</TableHead>
                     <TableHead className="text-red-500">Deadline</TableHead>
-
+                    <TableHead className="text-green-500">Progress</TableHead>
                     <TableHead>
-                      <span className="sr-only">Delete</span>
+                      {/* <span className="sr-only">Delete</span> */}
                     </TableHead>
                   </TableRow>
                 </TableHeader>
@@ -151,6 +161,14 @@ export default function Component() {
                         <TableCell>
                           {new Date(project.deadline).toLocaleString()}
                         </TableCell>
+                        <TableCell>
+                          <Progress
+                            value={
+                              (project.completedCount / project.tasks.length) *
+                              100
+                            }
+                          />
+                        </TableCell>
 
                         <TableCell>
                           <Button
@@ -163,7 +181,7 @@ export default function Component() {
                         </TableCell>
                       </TableRow>
                       {expandedProject === project._id && (
-                        <TableRow className="bg-muted">
+                        <TableRow className="bg-gray-900">
                           <TableCell colSpan={5}>
                             <div>
                               <div className="grid gap-4">
@@ -251,6 +269,7 @@ export default function Component() {
                               </div>
                             </div>
                           </TableCell>
+                          <TableCell></TableCell>
                         </TableRow>
                       )}
                     </Fragment>
