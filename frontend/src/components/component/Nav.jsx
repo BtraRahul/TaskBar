@@ -25,7 +25,7 @@ export default function Nav() {
         <MountainIcon className="h-6 w-6" />
         <span>TaskBar</span>
       </div>
-      <DarkMode extraClasses="absolute right-20 text-2xl" />
+      <DarkMode extraClasses="absolute right-16 top-4 text-2xl" />
 
       <div className="flex items-center gap-4">
         <UserButton />

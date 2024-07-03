@@ -29,14 +29,14 @@ const TaskForm = ({ projectId, fetchProjects }) => {
   return (
     <div className="flex items-center gap-2">
       <Input
-        className="ml-1"
+        className="ml-1 border-gray-400"
         type="text"
         placeholder="Add new task"
         value={newTaskName}
         onChange={(e) => setNewTaskName(e.target.value)}
       />
       <Button className="mr-10" onClick={() => addNewTask()}>
-        Add
+        Add Task
       </Button>
     </div>
   );

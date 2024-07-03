@@ -9,7 +9,6 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -112,9 +111,12 @@ export default function Component() {
         </CardHeader>
         <CardContent>
           {loading ? (
-            <div className="flex items-center justify-center py-12">
-              <Skeleton className="h-8 w-8 rounded-full" />
-              <Skeleton className="ml-4 h-4 w-32" />
+            <div className="flex items-center space-x-4">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250px]" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
             </div>
           ) : (
             <>
@@ -125,7 +127,7 @@ export default function Component() {
                     <TableHead>Project</TableHead>
                     <TableHead>Description</TableHead>
                     <TableHead>Tasks</TableHead>
-                    <TableHead>Deadline</TableHead>
+                    <TableHead className="text-red-500">Deadline</TableHead>
 
                     <TableHead>
                       <span className="sr-only">Delete</span>
@@ -191,7 +193,7 @@ export default function Component() {
                                                 size="sm"
                                               >
                                                 {task.status}
-                                                <ChevronDownIcon className="ml-2 h-4 w-4" />
+                                                <ChevronDownIcon className="ml-2 h-4 w-4 stroke-black dark:stroke-white duration-500" />
                                               </Button>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent>
