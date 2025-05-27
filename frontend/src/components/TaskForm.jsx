@@ -1,45 +1,68 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
-import { useState } from "react";
+"use client";
+
+import React, { useState } from "react";
 import axios from "axios";
-
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { API_BASE_URL } from "@/lib/config";
+import PropTypes from "prop-types";
 
+export default function TaskForm({
+  projectId,
+  addTaskToProject, // callback from dashboard to add task in frontend
+}) {
+  const [title, setTitle] = useState("");
+  const [loading, setLoading] = useState(false);
 
-const TaskForm = ({ projectId, fetchProjects }) => {
-  const [newTaskName, setNewTaskName] = useState("");
-  const [newTaskDescription, setnewTaskDescription] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const addNewTask = async (e) => {
-    if (newTaskName.trim() !== "") {
-      // e.preventDefault();
-      const newTask = { title: newTaskName, description: newTaskDescription };
-      await axios.put(
-        `${API_BASE_URL}/api/projects/${projectId}/tasks`,
-        newTask
-      );
-      fetchProjects();
-      setNewTaskName("");
-      setnewTaskDescription("");
+    if (!title) {
+      alert("Task title is required");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await axios
+        .put(`${API_BASE_URL}/api/projects/${projectId}/tasks`, {
+          title,
+          status: "To Do", // default status
+        })
+        .then((response) => {
+          // Call the callback function to update the UI
+          console.log("Task added successfully:", response.data);
+          addTaskToProject(projectId, response.data);
+
+          setTitle(""); // Clear the input field after adding the task
+        });
+      //if the task is added successfully, we call the callback to update the UI
+    } catch (err) {
+      console.error("Failed to add task", err);
+      alert("Failed to add task");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <form onSubmit={handleSubmit} className="mb-4 flex space-x-2 max-w-md">
       <Input
-        className="ml-1 border-gray-400"
-        type="text"
-        placeholder="Add new task"
-        value={newTaskName}
-        onChange={(e) => setNewTaskName(e.target.value)}
+        placeholder="New task title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        disabled={loading}
+        required
       />
-      <Button className="mr-10" onClick={() => addNewTask()}>
-        Add Task
+      <Button type="submit" disabled={loading}>
+        {loading ? "Adding..." : "Add Task"}
       </Button>
-    </div>
+    </form>
   );
-};
+}
 
-export default TaskForm;
+TaskForm.propTypes = {
+  projectId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
+  addTaskToProject: PropTypes.func.isRequired,
+};

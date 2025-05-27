@@ -107,3 +107,24 @@ export const deleteTask = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+/*
+
+export default function ProjectController() {
+  const [color, setCOlor] = useState("white")
+
+  const getColor = (color) =>{
+    setColor(color)
+  }
+
+  return(
+  <ChildComp getColor={getColor} />
+  )
+}
+
+  export default function ChildComp({getColor}) {
+  return (
+    <input type="color" onChange={(e) => getColor(e.target.value)} />
+  )
+  }
+*/

@@ -1,7 +1,3 @@
-// import { Route, Routes } from "react-router-dom";
-// import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import DarkMode from "./buttons/DarkMode";
-// import Nav from "./components/component/Nav";
 import Dashboard from "./pages/Dashboard";
 import {
   ClerkProvider,
@@ -33,8 +29,10 @@ const App = () => {
             <RedirectToSignIn />
           </SignedOut>
           <SignedIn>
-            <Nav loggedIn={"true"} />
-            <Dashboard />
+            <div className="mx-auto ">
+              <Nav loggedIn={"true"} />
+              <Dashboard />
+            </div>
           </SignedIn>
         </header>
         {/* <BrowserRouter>
